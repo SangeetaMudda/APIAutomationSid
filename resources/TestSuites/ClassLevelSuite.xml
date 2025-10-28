@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name = "API Automation smoke" parallel="classes" thread-count="1">
+    <listeners>
+        <listener class-name="utils.RetryListner"/>
+    </listeners>
+    <test name = "API Users TestCases">
+      <classes>
+          <class name="userManagment.getUsers"/>
+          <class name="userManagment.getPostmanEcho"/>
+      </classes>
+
+    </test>
+</suite>

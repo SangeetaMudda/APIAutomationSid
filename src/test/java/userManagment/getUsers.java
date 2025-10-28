@@ -1,21 +1,23 @@
 package userManagment;
 
+import core.BaseTest;
 import core.StatusCode;
 import io.restassured.RestAssured;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
+import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import utils.ExtentReport;
 import utils.JsonReader;
 import utils.PropertyReader;
 import utils.SoftAssertionUtil;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static io.restassured.RestAssured.*;
 
@@ -23,9 +25,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.hasItems;
 import static org.testng.Assert.assertEquals;
+import static utils.JsonReader.getJsonArray;
 
 
-public class getUsers {
+public class getUsers extends BaseTest {
 
     SoftAssertionUtil softAssertionUtil = new SoftAssertionUtil();
 
@@ -169,8 +172,11 @@ public class getUsers {
         response.then().body("job", equalTo("QA Engineer"));
 
     }*/
-    @Test
+    @Test(groups = "RegressionSuite")
     public void validateStatusCodeHeaderCode() {
+        ExtentReport.extentlog =
+                ExtentReport.extentreport.
+                        startTest("Validatestatuscodeheadercode", "Validate status code header");
         given()
                 .header("Content-Type", "application/json")
                 .when()
@@ -181,7 +187,7 @@ public class getUsers {
 
     }
 
-    @Test
+    @Test (groups = "SmokeSuite")
     public void validateStatusCodeTwoHeader() {
         given()
                 .header("x-api-key", "reqres-free-v1")
@@ -195,9 +201,12 @@ public class getUsers {
 
     }
 
-    @Test
+    @Test (groups = {"RegressionSuite", "SmokeSuite"})
     public void validateStatusCodeTwoHeaderWithMap() {
 
+        ExtentReport.extentlog =
+                ExtentReport.extentreport.
+                        startTest("Testvalidatestatuscodetwoheaderwithmap", "Validating the two header with map");
         Map<String, String> headers = new HashMap<>();
         headers.put("x-api-key", "reqres-free-v1");
         headers.put("Content-Type", "application/json");
@@ -231,19 +240,13 @@ public class getUsers {
 
         }
     }
-    @Test
-    public void testAuthValidation() {
-        Response response = given()
-                .auth()
-                .basic("postman", "password")
-                .when()
-                .get("https://postman-echo.com/basic-auth");
-        int actualStatusCode = response.statusCode();
-        assertEquals(actualStatusCode, StatusCode.SUCCESS.code);
-        System.out.println(response.body().asString());
-    }
-    @Test
+
+
+    @Test(groups = {"SmokeSuite", "RegressionSuite"})
     public void testDeleteMethod() {
+        ExtentReport.extentlog =
+                ExtentReport.extentreport.
+                        startTest("testDeleteMethod", "Validating the delete method");
         Response response = given()
                 .header("x-api-key", "reqres-free-v1")
                 .delete("https://reqres.in/api/users/2");
@@ -251,20 +254,9 @@ public class getUsers {
         assertEquals(actualStatusCode, StatusCode.NO_CONTENT.code);
         System.out.println("Executed testDeleteMethod");
     }
-    @Test
-    public void testDataValidationFromJson() throws IOException, ParseException {
-        String username = JsonReader.getTestData("username");
-        String password = JsonReader.getTestData("password");
-        System.out.println("Username"+username+"Password"+password);
-        Response response = given()
-                .auth()
-                .basic(username, password)
-                .when()
-                .get("https://postman-echo.com/basic-auth");
-        int actualStatusCode = response.statusCode();
-        assertEquals(actualStatusCode, StatusCode.SUCCESS.code);
-        System.out.println("Executed testDataValidationFromJson");
-    }
+
+
+
     @Test
     public void validatePropertyFileGetUser() throws IOException, ParseException {
         //set the base uri
@@ -286,6 +278,7 @@ public class getUsers {
 
 
     }
+
     @Test
     public void validateWithSoftAssertionUtil() {
         //set the base uri
@@ -301,6 +294,49 @@ public class getUsers {
         System.out.println("Validate withSoftAssertionUtil executed successfully");
     }
 
+    @DataProvider(name = "TestData")
+    public Object[][] getTestData() {
+        return new Object[][]{
+
+                {
+                        "1", "John"
+                },
+                {
+                        "2", "Michael"
+                },
+                {
+                        "3", "Hanry"
+                }
+        };
+    }
+    @Test(dataProvider = "TestData" )
+    @Parameters({"id", "name"})
+    public void testEndPoint(String id, String name) {
+        given()
+        .header("x-api-key", "reqres-free-v1")
+                .queryParam("id", id)
+                .queryParam("name", name)
+                .when()
+                .get("https://reqres.in/api/users/2")
+                .then()
+                .statusCode(200);
+    }
+
+    @Test
+    public void Test() throws IOException,  ParseException {
+        JsonReader.getJsonArrayData("languages", 0);
+        JSONArray jsonArray = getJsonArray("contact");
+        Iterator<String> iterator = jsonArray.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+
+
+
+    }
 
 
 }
+
+
+

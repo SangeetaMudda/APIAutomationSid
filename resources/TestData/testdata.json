@@ -1,5 +1,27 @@
 {
-"username": "postman",
+  "username": "postman",
   "password": "password",
-  "endpoint": "users"
+  "endpoint": "users",
+  "languages": [
+    "Java",
+    "Python",
+    "Golang"
+  ],
+  "Technology": [
+    "AI",
+    "ML",
+    "Windows"
+  ],
+  "Marks": [
+    1,
+    2,
+    3
+  ],
+  "Contacts": [
+    "email: sangeeta.mudda@gmail.comn",
+    "Phone: 6692657754",
+    "City: Sunnyvale",
+    "State: California",
+    "Zip: 94087"
+  ]
 }

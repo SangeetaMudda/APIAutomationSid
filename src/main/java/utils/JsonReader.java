@@ -5,6 +5,7 @@ import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 import org.json.simple.parser.ParseException;
+import org.json.simple.JSONArray;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,4 +30,19 @@ public class JsonReader {
         return jsonObj;
 
     }
+
+    public static JSONArray getJsonArray(String key) throws ParseException, IOException {
+        JSONObject jsonObject = getJsonData();
+        JSONArray jsonArray = (JSONArray) jsonObject.get(key);
+        return jsonArray;
+    }
+
+    public static Object getJsonArrayData(String key, int index) throws ParseException, IOException {{
+        JSONArray languages = getJsonArray("languages");
+        return languages.get(index);
+    }
+
+    }
+
+
 }
