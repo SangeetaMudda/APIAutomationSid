@@ -30,7 +30,7 @@ import static utils.JsonReader.getJsonArray;
 
 public class getUsers extends BaseTest {
 
-    SoftAssertionUtil softAssertionUtil = new SoftAssertionUtil();
+    //SoftAssertionUtil softAssertionUtil = new SoftAssertionUtil();
 
     @Test
     public void getUsersData() {
@@ -289,8 +289,8 @@ public class getUsers extends BaseTest {
                 .then()
                 .extract()
                 .response();
-        softAssertionUtil.assertEquals(response.getStatusCode(), StatusCode.NO_CONTENT.code, "Status Code is not 200");
-        softAssertionUtil.assertAll();
+        SoftAssertionUtil.assertEquals(response.getStatusCode(), StatusCode.NO_CONTENT.code, "Status Code is not 200");
+        SoftAssertionUtil.assertAll();
         System.out.println("Validate withSoftAssertionUtil executed successfully");
     }
 
@@ -325,7 +325,7 @@ public class getUsers extends BaseTest {
     @Test
     public void Test() throws IOException,  ParseException {
         JsonReader.getJsonArrayData("languages", 0);
-        JSONArray jsonArray = getJsonArray("contact");
+        JSONArray jsonArray = getJsonArray("Contacts");
         Iterator<String> iterator = jsonArray.iterator();
         while (iterator.hasNext()) {
             System.out.println(iterator.next());

@@ -9,6 +9,7 @@
         </groups>
         <classes>
             <class name="userManagment.getUsers"/>
+            <class name="userManagment.APIChaining"/>
             <class name="userManagment.getPostmanEcho"/>
         </classes>
     </test>

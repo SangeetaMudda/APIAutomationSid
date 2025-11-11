@@ -8,6 +8,7 @@
       <classes>
           <class name="userManagment.getUsers"/>
           <class name="userManagment.getPostmanEcho"/>
+          <class name="userManagment.APIChaining"/>
       </classes>
 
     </test>

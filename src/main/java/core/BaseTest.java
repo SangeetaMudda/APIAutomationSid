@@ -5,10 +5,21 @@ import helper.Helper;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import utils.ExtentReport;
 
+import java.lang.reflect.Method;
+
 public class BaseTest {
+
+    @BeforeMethod(alwaysRun = true)
+    public void startTest(Method method) {
+        String testName = method.getName();
+        String className = method.getDeclaringClass().getSimpleName();
+        ExtentReport.extentlog =
+                ExtentReport.extentreport.startTest(testName, "Starting test: " + testName);
+    }
 
     @BeforeSuite(alwaysRun = true)
     public void config() {

@@ -7,8 +7,6 @@ import java.io.File;
 
 public class ExtentReport {
 
-
-
     public static ExtentReports extentreport = null;
 
     public static ExtentTest extentlog;
@@ -26,7 +24,7 @@ public class ExtentReport {
             extentreport.addSystemInfo("OS", "MAC OS");
 
 
-            extentreport.loadConfig(new File(System.getProperty("user.dir") + "resources/extent-config.xml"));
+            extentreport.loadConfig(new File(System.getProperty("user.dir") + "/resources/extent-config.xml"));
 
         }
 

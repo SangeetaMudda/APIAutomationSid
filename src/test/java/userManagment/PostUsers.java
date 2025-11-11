@@ -90,15 +90,27 @@ public class PostUsers {
 
     }
     @Test
-    public void validatePostWithPojo() throws IOException {
+    public void validatePostWithPojoListobject() throws IOException {
 
         List<String> listlanguages = new ArrayList<>();
         listlanguages.add("Java");
         listlanguages.add("Python");
+
+        cityRequest cityRequest1 = new cityRequest();
+        cityRequest1.setName("Bangalore");
+        cityRequest1.setTemperature("30");
+        cityRequest cityRequest2 = new cityRequest();
+        cityRequest2.setName("Delhi");
+        cityRequest2.setTemperature("40");
+        List<cityRequest> cityRequests = new ArrayList<>();
+        cityRequests.add(cityRequest1);
+        cityRequests.add(cityRequest2);
+
         postRequestBody postRequestBody = new postRequestBody();
         postRequestBody.setJob("Director");
         postRequestBody.setName("SangeetaMudda");
         postRequestBody.setLanguages(listlanguages);
+        postRequestBody.setCityRequests(cityRequests);
         Response response = given()
                 .header("x-api-key", "reqres-free-v1")
                 .header("Content-Type", "application/json")
@@ -129,22 +141,71 @@ public class PostUsers {
 
 
     }
+    @Test
+    public void validatePatchtWithPojo() throws IOException {
+
+
+        postRequestBody patchtRequestBody = new postRequestBody();
+        patchtRequestBody.setJob("CEO");
+        //patchtRequestBody.setName("Aditi Mudda");
+        //postRequestBody.setLanguages(listlanguages);
+        Response response = given()
+                .header("x-api-key", "reqres-free-v1")
+                .header("Content-Type", "application/json")
+                .body(patchtRequestBody)
+                .patch("https://reqres.in/api/users/2");
+        //postRequestBody postRequestBody = response.as(postRequestBody.class);
+        //System.out.println(postRequestBody.getJob());
+
+
+        assertEquals(response.getStatusCode(), StatusCode.SUCCESS.code);
+        System.out.println(response.getBody().asString());
+        System.out.println("validatePatchtWithPojo executed successfully");
+    }
 
     @Test
-    public void validatePostWithPojowithcity() throws IOException {
+    public void validatePatchtWithResponsePojo() throws IOException {
+
+String job = "CEO";
+
+        postRequestBody patchtRequestBody = new postRequestBody();
+        patchtRequestBody.setJob(job);
+        //patchtRequestBody.setName("Aditi Mudda");
+        //postRequestBody.setLanguages(listlanguages);
+        Response response = given()
+                .header("x-api-key", "reqres-free-v1")
+                .header("Content-Type", "application/json")
+                .body(patchtRequestBody)
+                .patch("https://reqres.in/api/users/2");
+        postRequestBody postRequestBody = response.as(postRequestBody.class);
+        System.out.println(postRequestBody.getLanguages());
+        System.out.println(postRequestBody.getCityRequests());
+        System.out.println(postRequestBody.getJob());
+        assertEquals(postRequestBody.getJob(), job);
+        assertEquals(response.getStatusCode(), StatusCode.SUCCESS.code);
+        System.out.println(response.getBody().asString());
+        System.out.println("validatePatchtWithPojo executed successfully");
+    }
+    @Test
+    public void validatePostWithPojoListobjectResponse() throws IOException {
+
+        String name = "Bangalore";
+        String temperature = "30";
 
         List<String> listlanguages = new ArrayList<>();
         listlanguages.add("Java");
         listlanguages.add("Python");
-        cityRequest cityreq1 = new cityRequest();
-        cityreq1.setName("Bangalore");
-        cityreq1.setTemperature("30");
-        cityRequest cityreq2 = new cityRequest();
-        cityreq2.setName("Delhi");
-        cityreq2.setTemperature("40");
+
+        cityRequest cityRequest1 = new cityRequest();
+        cityRequest1.setName(name);
+        cityRequest1.setTemperature(temperature);
+        //cityRequest cityRequest2 = new cityRequest();
+        //cityRequest2.setName("Delhi");
+        //cityRequest2.setTemperature("40");
         List<cityRequest> cityRequests = new ArrayList<>();
-        cityRequests.add(cityreq1);
-        cityRequests.add(cityreq2);
+        cityRequests.add(cityRequest1);
+        //cityRequests.add(cityRequest2);
+
         postRequestBody postRequestBody = new postRequestBody();
         postRequestBody.setJob("Director");
         postRequestBody.setName("SangeetaMudda");
@@ -155,15 +216,17 @@ public class PostUsers {
                 .header("Content-Type", "application/json")
                 .body(postRequestBody)
                 .post("https://reqres.in/api/users");
+        pojo.postRequestBody listobj = response.as(pojo.postRequestBody.class);
+        System.out.println(listobj.getCityRequests().get(0).getName());
+        System.out.println(listobj.getCityRequests().get(0).getTemperature());
+        System.out.println(listobj.getLanguages());
+        assertEquals(listobj.getCityRequests().get(0).getName(), name);
+        assertEquals(listobj.getCityRequests().get(0).getTemperature(), temperature);
+
         assertEquals(response.getStatusCode(), StatusCode.CREATED.code);
         System.out.println(response.getBody().asString());
-        System.out.println("validatePostWithPojowithcity executed successfully");
+        System.out.println("validatePostWithString executed successfully");
 
 
     }
-
-
-
-
-
 }

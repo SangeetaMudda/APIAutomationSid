@@ -1,13 +1,23 @@
 package pojo;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class postRequestBody {
 
 
     private String name;
     private String job;
     private List<String> languages;
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    private String updatedAt;
 
     public List<cityRequest> getCityRequests() {
         return cityRequests;
